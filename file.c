@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include"file.h"
-void fileToChar(char* name,char* maze){
+void fileToChar(char* name, char** vec, Block block, Point size){
 		FILE* f = fopen(name, "r");
 		if(f == NULL){
 			fprintf(stderr, "cannot open file %s\n", name);
@@ -10,7 +10,25 @@ void fileToChar(char* name,char* maze){
 		
 		int x = 0, y = 0;
 		int c;
-
+		fseek(f, block.min.y*(size.x+1)+block.min.x, SEEK_SET); 
+		x = block.min.x;
+		y = block.min.y;
+		
+		while(y < block.max.y){
+			while((c = fgetc(f)) != '\n'){
+				if(x >= block.min.x && x < block.max.x && y < block.max.y && y >= block.min.y){
+					if(c == 'X' || c == 'P' || c == 'K')
+						vec[y - block.min.y][x - block.min.x] = 0;
+					else
+						vec[y - block.min.y][x - block.min.x] = 1;
+				}
+				x++;
+			}
+			y++;
+			x=0;
+		}
+		//skip
+		fclose(f);
 
 } 
 Block newBlock(int xmin, int ymin, int xmax, int ymax){
