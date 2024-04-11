@@ -16,9 +16,9 @@ typedef struct{
 void fileToChar(char*,char**,Block,Point);
 Block newBlock(int, int, int, int);
 
-Block* divideIntoBlocks(point_t);
+Block* divideIntoBlocks(Point);
 
-Point biggestBlock(block_t*);
+Point biggestBlock(Block*);
 
 int max(int, int);
 

@@ -27,13 +27,13 @@ void fileToChar(char* name, char** vec, Block block, Point size){
 			y++;
 			x=0;
 		}
-		//skip
+		
 		fclose(f);
 
 } 
 Block newBlock(int xmin, int ymin, int xmax, int ymax){
-	Point A = {x1, y1};
-       	Point B = {x2, y2};
+	Point A = {xmin, ymin};
+       	Point B = {xmax, ymax};
 
 	Block new;	
 
@@ -70,7 +70,7 @@ Block* divideIntoBlocks(Point size){
             int endX = xDivisions[x];
             int endY = yDivisions[y];
 
-            blocks[index++] = new_block(startX, startY, endX, endY);
+            blocks[index++] = newBlock(startX, startY, endX, endY);
         }
     }
 
@@ -81,18 +81,24 @@ Point biggestBlock(Block* blocks){
 	Point size;
 	size.x = 0; size.y = 0;
 	for(int i = 0; i < 9; i++){
-		size.x = max(blocks[i].max .x-blocks[i].mini.x, size.x);
-		size.y = max(blocks[i].maxi.y-blocks[i].mini.y, size.y);
+		size.x = max(blocks[i].max .x-blocks[i].min.x, size.x);
+		size.y = max(blocks[i].max.y-blocks[i].min.y, size.y);
 	
 	}
 }
 
 
 int max(int a, int b){
-	a > b ? return a : return b;
+	if (a>b){
+		return a;
+	}	
+	return b;
 }
 
 int min(int a, int b){
-	a < b ? return a : return b;
+	if (a>b){
+                return a;
+        }
+        return b;
 }
 
