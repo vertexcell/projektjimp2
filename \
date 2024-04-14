@@ -1,8 +1,56 @@
 #include <stdio.h>
 #include "queue.h"
 #include "maze.h"
-#include "file.h"
+typedef struct{
+	int x;
+	int y;
+} point_t;
 
+void read_maze_info(char* filename, point_t* maze_size, point_t* start, point_t* end){
+	FILE* f = fopen(filename, "r");
+	if(f == NULL){
+		fprintf(stderr, "Nie moge czytac pliku %s\n", filename);
+	}
+	
+	/* znalezienie rozmiaru pliku */
+	int c;
+	int x = 0, y = 0;
+	int row_len_found = 0;
+	while((c = fgetc(f)) != EOF){
+
+		if(c == '\n' && !row_len_found){
+			maze_size->x = x;
+			row_len_found = 1;
+		}
+		if(c == '\n'){
+			y += 1;
+		}
+		x += 1;
+	}
+	maze_size->y = y+1;
+	
+	/* znalezienie wejscia i wyjscia */
+	x = 0, y = 0;
+	fseek(f, 0, SEEK_SET);
+	while((c = fgetc(f)) != EOF){
+		if(c == 'P'){
+			start->x = x;
+			start->y = y;
+		}
+		if(c == 'K'){
+			end->x = x;
+			end->y = y;
+		}
+
+		x += 1;
+		if(c == '\n'){
+			y += 1;
+			x = 0;
+		}
+	}
+	
+	fclose(f);
+}
 
 int main(int argc, char**argv) {
     if(argc != 2){
@@ -10,7 +58,7 @@ int main(int argc, char**argv) {
     }
     char *input_filename = argv[1];
 
-    Point maze_size, start, end;
+    point_t maze_size, start, end;
 
     read_maze_info(input_filename, &maze_size, &start, &end);
 

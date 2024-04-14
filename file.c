@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include"file.h"
-void fileToChar(char* name, char** vec, Block block, Point size){
+void fileToChar(const char* name, char** vec, Block block, Point size){
 		FILE* f = fopen(name, "r");
 		if(f == NULL){
 			fprintf(stderr, "cannot open file %s\n", name);

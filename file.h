@@ -13,7 +13,7 @@ typedef struct{
 	Point max; //prawy dolny rog
 } Block;
 
-void fileToChar(char*,char**,Block,Point);
+void fileToChar(const char*,char**,Block,Point);
 Block newBlock(int, int, int, int);
 
 Block* divideIntoBlocks(Point);
